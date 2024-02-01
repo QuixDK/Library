@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.dynamika.library.DTO.BookDTO;
+import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.repository.BookRepo;
 
@@ -26,22 +26,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void saveNewBook(BookDTO bookDTO) {
+    public String saveNewBook(BookDto bookDTO) {
+        if (bookRepo.existsByIsbn(bookDTO.getIsbn())) {
+            return "This book is already saved";
+        }
+
         log.info("Save new book: " + bookRepo.save(Book.builder()
                 .name(bookDTO.getName())
                 .author(bookDTO.getAuthor())
-                .ISBN(bookDTO.getISBN())
+                .isbn(bookDTO.getIsbn())
                 .build()
         ));
+        return "Save new book";
     }
 
     @Override
     public String updateBook(Book book) {
-        if (!bookRepo.existsById(book.getId())) {
+        if (bookRepo.existsByIsbn(book.getIsbn())) {
             return "No such book";
         }
-        log.info("Update product: " + bookRepo.save(book));
-        return "Update product: " + bookRepo.findById(book.getId());
+        log.info("Update book: " + bookRepo.save(book));
+        return "Update book: " + bookRepo.findByIsbn(book.getIsbn());
     }
 
 }

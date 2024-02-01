@@ -1,17 +1,13 @@
 package ru.dynamika.library.dto;
 
-
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookDto {
+public class BookRentDto {
 
-    String name;
-    String author;
+    int userId;
     String isbn;
-
 }

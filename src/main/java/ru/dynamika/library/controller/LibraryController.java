@@ -4,30 +4,32 @@ package ru.dynamika.library.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.dynamika.library.DTO.BookDTO;
+import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
+import ru.dynamika.library.service.BookService;
 import ru.dynamika.library.service.BookServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class LibraryController {
 
     @Autowired
-    private final BookServiceImpl bookServiceImpl;
+    private final BookService bookService;
 
 
-    @PostMapping("/api/v1/books")
-    public void saveNewBook(@RequestBody BookDTO bookDTO) {
-        bookServiceImpl.saveNewBook(bookDTO);
+    @PostMapping("/books")
+    public String saveNewBook(@RequestBody BookDto bookDTO) {
+        return bookService.saveNewBook(bookDTO);
     }
 
-    @GetMapping("/api/v1/books")
+    @GetMapping("/books")
     public String getAllBooks() {
-        return bookServiceImpl.getAllBooks();
+        return bookService.getAllBooks();
     }
 
-    @PutMapping("/api/v1/books")
+    @PutMapping("/books")
     public String updateBook(@RequestBody Book book) {
-        return bookServiceImpl.updateBook(book);
+        return bookService.updateBook(book);
     }
 }
