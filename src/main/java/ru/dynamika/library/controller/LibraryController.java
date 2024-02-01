@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.dynamika.library.DTO.BookDTO;
+import ru.dynamika.library.model.Book;
 import ru.dynamika.library.service.BookServiceImpl;
 
 @RestController
@@ -26,7 +27,7 @@ public class LibraryController {
     }
 
     @PutMapping("/api/updateBook")
-    public void updateBook(@RequestBody BookDTO bookDTO) {
-
+    public String updateBook(@RequestBody Book book) {
+        return bookServiceImpl.updateBook(book);
     }
 }

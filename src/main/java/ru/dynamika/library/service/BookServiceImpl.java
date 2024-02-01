@@ -13,17 +13,19 @@ import ru.dynamika.library.repository.BookRepo;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     @Autowired
     private final BookRepo bookRepo;
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
+    @Override
     public String getAllBooks() {
         return objectMapper.writeValueAsString(bookRepo.findAll());
     }
 
+    @Override
     public void saveNewBook(BookDTO bookDTO) {
         log.info("Save new book: " + bookRepo.save(Book.builder()
                 .name(bookDTO.getName())
@@ -31,6 +33,15 @@ public class BookServiceImpl implements BookService{
                 .ISBN(bookDTO.getISBN())
                 .build()
         ));
+    }
+
+    @Override
+    public String updateBook(Book book) {
+        if (!bookRepo.existsById(book.getId())) {
+            return "No such book";
+        }
+        log.info("Update product: " + bookRepo.save(book));
+        return "Update product: " + bookRepo.findById(book.getId());
     }
 
 }
