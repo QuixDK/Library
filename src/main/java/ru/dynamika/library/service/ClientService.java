@@ -4,16 +4,18 @@ import ru.dynamika.library.dto.BookRentDto;
 import ru.dynamika.library.dto.ClientDto;
 import ru.dynamika.library.model.Client;
 
+import java.util.List;
+
 
 public interface ClientService {
 
-    String getAllClients();
+    List<Client> getAllClients();
 
     String saveNewClient(ClientDto clientDTO);
 
     String updateClient(Client client);
 
-    String getClientsWithRentedBooks();
+    List<Client> getClientsWithRentedBooks();
 
     String addNewBookToClient(BookRentDto bookRentDto);
 }

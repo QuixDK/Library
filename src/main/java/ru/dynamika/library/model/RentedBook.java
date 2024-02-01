@@ -20,17 +20,16 @@ public class RentedBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "client_id")
     Client client;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
 
-    @JsonIgnore
     LocalDateTime rentalTimestamp;
 
     @Override

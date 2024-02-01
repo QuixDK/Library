@@ -10,6 +10,8 @@ import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.repository.BookRepository;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -17,12 +19,12 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private final BookRepository bookRepository;
-    private final ObjectMapper objectMapper;
+
 
     @SneakyThrows
     @Override
-    public String getAllBooks() {
-        return objectMapper.writeValueAsString(bookRepository.findAll());
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     @Override

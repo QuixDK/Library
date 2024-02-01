@@ -1,7 +1,9 @@
 package ru.dynamika.library.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.dynamika.library.dto.BookDto;
@@ -16,16 +18,17 @@ public class LibraryController {
 
     @Autowired
     private final BookService bookService;
-
+    private final ObjectMapper objectMapper;
 
     @PostMapping("/")
     public String saveNewBook(@RequestBody BookDto bookDTO) {
         return bookService.saveNewBook(bookDTO);
     }
 
+    @SneakyThrows
     @GetMapping("/")
     public String getAllBooks() {
-        return bookService.getAllBooks();
+        return objectMapper.writeValueAsString(bookService.getAllBooks());
     }
 
     @PutMapping("/")

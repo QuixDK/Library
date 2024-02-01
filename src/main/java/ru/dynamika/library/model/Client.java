@@ -26,7 +26,6 @@ public class Client {
     String fullName;
     Date birthday;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RentedBook> rentedBooks;
 
@@ -36,7 +35,6 @@ public class Client {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", birthday=" + birthday +
-                // ", rentedBooks=" + rentedBooks +
                 '}';
     }
 }

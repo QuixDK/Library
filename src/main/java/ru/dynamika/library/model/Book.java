@@ -1,5 +1,6 @@
 package ru.dynamika.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,6 +26,7 @@ public class Book {
 
     String isbn;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RentedBook> rentedBooks;
 
@@ -34,7 +36,7 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
-                ", ISBN='" + isbn + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", rentedBooks=" + rentedBooks +
                 '}';
     }

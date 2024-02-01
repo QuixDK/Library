@@ -7,8 +7,10 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.dto.BookRentDto;
 import ru.dynamika.library.dto.ClientDto;
+import ru.dynamika.library.dto.ClientRentedBooksDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.model.Client;
 import ru.dynamika.library.model.RentedBook;
@@ -29,12 +31,11 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final RentedBookRepository rentedBookRepository;
     private final BookRepository bookRepository;
-    private final ObjectMapper objectMapper;
 
     @Override
     @SneakyThrows
-    public String getAllClients() {
-        return objectMapper.writeValueAsString(clientRepository.findAll());
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
     }
 
     @Override
@@ -86,24 +87,8 @@ public class ClientServiceImpl implements ClientService {
 
     @SneakyThrows
     @Override
-    public String getClientsWithRentedBooks() {
-
-        List<String> rentedBooksMapper = new ArrayList<>();
-        List<Client> clients = clientRepository.findAll();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        if (clients.isEmpty()) {
-            return "There is no clients";
-        }
-        for (Client client : clients) {
-            if (!client.getRentedBooks().isEmpty()) {
-                for (RentedBook book : client.getRentedBooks()) {
-                    rentedBooksMapper.add(objectMapper.writeValueAsString(book.getBook()));
-                }
-
-            }
-        }
-
-        return rentedBooksMapper.toString();
+    public List<Client> getClientsWithRentedBooks() {
+        return clientRepository.findAll();
     }
 
     private boolean isBookAlreadyRented(Client client, Book book) {
