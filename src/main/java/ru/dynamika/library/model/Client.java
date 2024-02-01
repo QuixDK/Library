@@ -1,6 +1,7 @@
 package ru.dynamika.library.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,8 +26,9 @@ public class Client {
     String fullName;
     Date birthday;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<RentedBooks> rentedBooks;
+    List<RentedBook> rentedBooks;
 
     @Override
     public String toString() {
@@ -34,7 +36,7 @@ public class Client {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", birthday=" + birthday +
-                ", rentedBooks=" + rentedBooks +
+                // ", rentedBooks=" + rentedBooks +
                 '}';
     }
 }

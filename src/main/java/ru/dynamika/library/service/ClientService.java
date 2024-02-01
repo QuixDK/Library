@@ -13,7 +13,7 @@ public interface ClientService {
 
     String updateClient(Client client);
 
-    String getAllReadingClients();
+    String getClientsWithRentedBooks();
 
     String addNewBookToClient(BookRentDto bookRentDto);
 }

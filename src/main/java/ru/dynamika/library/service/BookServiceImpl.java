@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
-import ru.dynamika.library.repository.BookRepo;
+import ru.dynamika.library.repository.BookRepository;
 
 @Service
 @Slf4j
@@ -16,22 +16,22 @@ import ru.dynamika.library.repository.BookRepo;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    private final BookRepo bookRepo;
+    private final BookRepository bookRepository;
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
     @Override
     public String getAllBooks() {
-        return objectMapper.writeValueAsString(bookRepo.findAll());
+        return objectMapper.writeValueAsString(bookRepository.findAll());
     }
 
     @Override
     public String saveNewBook(BookDto bookDTO) {
-        if (bookRepo.existsByIsbn(bookDTO.getIsbn())) {
+        if (bookRepository.existsByIsbn(bookDTO.getIsbn())) {
             return "This book is already saved";
         }
 
-        log.info("Save new book: " + bookRepo.save(Book.builder()
+        log.info("Save new book: " + bookRepository.save(Book.builder()
                 .name(bookDTO.getName())
                 .author(bookDTO.getAuthor())
                 .isbn(bookDTO.getIsbn())
@@ -42,11 +42,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public String updateBook(Book book) {
-        if (bookRepo.existsByIsbn(book.getIsbn())) {
+        if (bookRepository.existsByIsbn(book.getIsbn())) {
             return "No such book";
         }
-        log.info("Update book: " + bookRepo.save(book));
-        return "Update book: " + bookRepo.findByIsbn(book.getIsbn());
+        log.info("Update book: " + bookRepository.save(book));
+        return "Update book: " + bookRepository.findByIsbn(book.getIsbn());
     }
 
 }

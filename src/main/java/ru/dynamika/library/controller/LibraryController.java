@@ -11,24 +11,24 @@ import ru.dynamika.library.service.BookServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/books")
 public class LibraryController {
 
     @Autowired
     private final BookService bookService;
 
 
-    @PostMapping("/books")
+    @PostMapping("/")
     public String saveNewBook(@RequestBody BookDto bookDTO) {
         return bookService.saveNewBook(bookDTO);
     }
 
-    @GetMapping("/books")
+    @GetMapping("/")
     public String getAllBooks() {
         return bookService.getAllBooks();
     }
 
-    @PutMapping("/books")
+    @PutMapping("/")
     public String updateBook(@RequestBody Book book) {
         return bookService.updateBook(book);
     }

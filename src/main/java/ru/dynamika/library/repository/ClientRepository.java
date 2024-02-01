@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.dynamika.library.model.Client;
 
 @Repository
-public interface ClientRepo extends JpaRepository<Client, Integer> {
+public interface ClientRepository extends JpaRepository<Client, Integer> {
 }

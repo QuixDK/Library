@@ -26,7 +26,7 @@ public class Book {
     String isbn;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<RentedBooks> rentedBooks;
+    List<RentedBook> rentedBooks;
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package ru.dynamika.library.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +11,10 @@ import ru.dynamika.library.dto.BookRentDto;
 import ru.dynamika.library.dto.ClientDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.model.Client;
-import ru.dynamika.library.model.RentedBooks;
-import ru.dynamika.library.repository.BookRepo;
-import ru.dynamika.library.repository.ClientRepo;
-import ru.dynamika.library.repository.RentedBooksRepo;
+import ru.dynamika.library.model.RentedBook;
+import ru.dynamika.library.repository.BookRepository;
+import ru.dynamika.library.repository.ClientRepository;
+import ru.dynamika.library.repository.RentedBookRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,20 +26,20 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     @Autowired
-    private final ClientRepo clientRepo;
-    private final RentedBooksRepo rentedBooksRepo;
-    private final BookRepo bookRepo;
+    private final ClientRepository clientRepository;
+    private final RentedBookRepository rentedBookRepository;
+    private final BookRepository bookRepository;
     private final ObjectMapper objectMapper;
 
     @Override
     @SneakyThrows
     public String getAllClients() {
-        return objectMapper.writeValueAsString(clientRepo.findAll());
+        return objectMapper.writeValueAsString(clientRepository.findAll());
     }
 
     @Override
     public String saveNewClient(ClientDto clientDTO) {
-        log.info("Save new client: " + clientRepo.save(Client.builder()
+        log.info("Save new client: " + clientRepository.save(Client.builder()
                 .fullName(clientDTO.getFullName())
                 .birthday(clientDTO.getBirthday())
                 .rentedBooks(new ArrayList<>())
@@ -49,54 +50,65 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public String updateClient(Client client) {
-        if (!clientRepo.existsById(client.getId())) {
+        if (!clientRepository.existsById(client.getId())) {
             return "No such client";
         }
-        log.info("Update client: " + clientRepo.save(client));
-        return "Update client: " + clientRepo.findById(client.getId());
+        log.info("Update client: " + clientRepository.save(client));
+        return "Update client: " + clientRepository.findById(client.getId());
     }
 
     public String addNewBookToClient(BookRentDto bookRentDto) {
-        if (!clientRepo.existsById(bookRentDto.getUserId())) {
+        if (!clientRepository.existsById(bookRentDto.getUserId())) {
             return "No such client";
         }
-        if (!bookRepo.existsByIsbn(bookRentDto.getIsbn())) {
+        if (!bookRepository.existsByIsbn(bookRentDto.getIsbn())) {
             return "No such book";
         }
-        Client client = clientRepo.findById(bookRentDto.getUserId()).get();
-        Book book = bookRepo.findByIsbn(bookRentDto.getIsbn());
+        Client client = clientRepository.findById(bookRentDto.getUserId()).get();
+        Book book = bookRepository.findByIsbn(bookRentDto.getIsbn());
 
         if (isBookAlreadyRented(client, book)) {
             return "Book is already rented by the client";
         }
 
-        RentedBooks rentedBooks = new RentedBooks();
-        rentedBooks.setClient(client);
-        rentedBooks.setBook(book);
-        rentedBooks.setRentalTimestamp(LocalDateTime.now());
+        RentedBook rentedBook = new RentedBook();
+        rentedBook.setClient(client);
+        rentedBook.setBook(book);
+        rentedBook.setRentalTimestamp(LocalDateTime.now());
 
-        client.getRentedBooks().add(rentedBooks);
+        client.getRentedBooks().add(rentedBook);
 
-        rentedBooksRepo.save(rentedBooks);
-        clientRepo.save(client);
+        rentedBookRepository.save(rentedBook);
+        clientRepository.save(client);
 
         return "Client rented a new book";
     }
 
-
     @SneakyThrows
     @Override
-    public String getAllReadingClients() {
-        List<Client> clients = clientRepo.findAll();
+    public String getClientsWithRentedBooks() {
+
+        List<String> rentedBooksMapper = new ArrayList<>();
+        List<Client> clients = clientRepository.findAll();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         if (clients.isEmpty()) {
             return "There is no clients";
         }
-        return "";
+        for (Client client : clients) {
+            if (!client.getRentedBooks().isEmpty()) {
+                for (RentedBook book : client.getRentedBooks()) {
+                    rentedBooksMapper.add(objectMapper.writeValueAsString(book.getBook()));
+                }
+
+            }
+        }
+
+        return rentedBooksMapper.toString();
     }
 
     private boolean isBookAlreadyRented(Client client, Book book) {
-        for (RentedBooks rentedBooks : client.getRentedBooks()) {
-            if (rentedBooks.getBook().equals(book)) {
+        for (RentedBook rentedBook : client.getRentedBooks()) {
+            if (rentedBook.getBook().equals(book)) {
                 return true;
             }
         }

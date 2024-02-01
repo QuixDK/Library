@@ -12,13 +12,13 @@ import ru.dynamika.library.service.ClientServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/clients")
 public class ClientsController {
 
     @Autowired
     private final ClientService clientService;
 
-    @PostMapping("/clients")
+    @PostMapping("/")
     public String addNewClient(@RequestBody ClientDto clientDTO) {
         return clientService.saveNewClient(clientDTO);
     }
@@ -28,17 +28,17 @@ public class ClientsController {
         return clientService.addNewBookToClient(bookRentDto);
     }
 
-    @GetMapping("/clients")
+    @GetMapping("/")
     public String getAllClients() {
         return clientService.getAllClients();
     }
 
-    @GetMapping("/readingClients")
-    public String getAllReadingClients() {
-        return clientService.getAllReadingClients();
+    @GetMapping("/rented-books")
+    public String getClientsWithRentedBooks() {
+        return clientService.getClientsWithRentedBooks();
     }
 
-    @PutMapping("/clients")
+    @PutMapping("/")
     public String updateBook(@RequestBody Client client) {
         return clientService.updateClient(client);
     }

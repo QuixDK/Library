@@ -1,5 +1,6 @@
 package ru.dynamika.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,20 +14,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RentedBooks {
+public class RentedBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     Client client;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
 
+    @JsonIgnore
     LocalDateTime rentalTimestamp;
 
     @Override
