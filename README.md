@@ -5,3 +5,26 @@
 4. Вернуться в главный пакет репозитория ( library ), используя команду mvn package, собрать проект
 5. Дождавшись билда проекта, написать cd target в терминале
 6. Далее, для запуска проекта использовать команду java -jar library-1.jar
+
+
+RequestBodies for tests
+Create user: POST localhost:8080/api/v1/clients/
+{
+    "fullName":"Your Full Name",
+    "birthday":"yyyy-MM-dd"
+}
+AddBook: POST localhost:8080/api/v1/books/
+{
+    "name":"Harry Potter and the Philosopher's Stone 2",
+    "author":"J. K. Rowling",
+    "isbn":"13: 9780545069680"
+}
+ClientRentABook: POST localhost:8080/api/v1/clients/books/rent
+{
+    "userId":"1",
+    "isbn":"13: 9780545069680"
+}
+
+GetAllClients: GET localhost:8080/api/v1/clients/
+GetClientsWithRentedBooks: GET localhost:8080/api/v1/clients/rented-books
+GetAllBooks:GET localhost:8080/api/v1/books/
