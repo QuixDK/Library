@@ -1,16 +1,12 @@
 package ru.dynamika.library.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.dto.BookRentDto;
 import ru.dynamika.library.dto.ClientDto;
-import ru.dynamika.library.dto.ClientRentedBooksDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.model.Client;
 import ru.dynamika.library.model.RentedBook;
@@ -39,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String saveNewClient(ClientDto clientDTO) {
+    public String createClient(ClientDto clientDTO) {
         log.info("Save new client: " + clientRepository.save(Client.builder()
                 .fullName(clientDTO.getFullName())
                 .birthday(clientDTO.getBirthday())

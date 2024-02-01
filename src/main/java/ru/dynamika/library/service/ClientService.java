@@ -11,7 +11,7 @@ public interface ClientService {
 
     List<Client> getAllClients();
 
-    String saveNewClient(ClientDto clientDTO);
+    String createClient(ClientDto clientDTO);
 
     String updateClient(Client client);
 
