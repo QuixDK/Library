@@ -75,8 +75,8 @@ public class ClientServiceImpl implements ClientService {
 
         client.getRentedBooks().add(rentedBook);
 
-        rentedBookRepository.save(rentedBook);
-        clientRepository.save(client);
+        log.info("New rented book: " + rentedBookRepository.save(rentedBook));
+        log.info("Client update rented books: " + clientRepository.save(client));
 
         return "Client rented a new book";
     }

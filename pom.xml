@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.dynamika</groupId>
 	<artifactId>library</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>library</name>
 	<description>Test task for dynamika company</description>
 	<properties>
