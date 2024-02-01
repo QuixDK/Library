@@ -16,17 +16,17 @@ public class ClientsController {
     @Autowired
     private final ClientServiceImpl clientService;
 
-    @PostMapping("/api/addClient")
+    @PostMapping("/api/v1/clients")
     public void addNewClient(@RequestBody ClientDTO clientDTO) {
         clientService.saveNewClient(clientDTO);
     }
 
-    @GetMapping("/api/getClients")
+    @GetMapping("/api/v1/clients")
     public String getAllClients() {
         return clientService.getAllClients();
     }
 
-    @PutMapping("/api/updateBook")
+    @PutMapping("/api/v1/clients")
     public String updateBook(@RequestBody Client client) {
         return clientService.updateClient(client);
     }

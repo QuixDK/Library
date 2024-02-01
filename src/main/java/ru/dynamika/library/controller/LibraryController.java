@@ -16,17 +16,17 @@ public class LibraryController {
     private final BookServiceImpl bookServiceImpl;
 
 
-    @PostMapping("/api/saveBook")
+    @PostMapping("/api/v1/books")
     public void saveNewBook(@RequestBody BookDTO bookDTO) {
         bookServiceImpl.saveNewBook(bookDTO);
     }
 
-    @GetMapping("/api/getBooks")
+    @GetMapping("/api/v1/books")
     public String getAllBooks() {
         return bookServiceImpl.getAllBooks();
     }
 
-    @PutMapping("/api/updateBook")
+    @PutMapping("/api/v1/books")
     public String updateBook(@RequestBody Book book) {
         return bookServiceImpl.updateBook(book);
     }
