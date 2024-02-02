@@ -37,7 +37,7 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", rentedBooks=" + rentedBooks +
+             //   ", rentedBooks=" + rentedBooks +
                 '}';
     }
 }

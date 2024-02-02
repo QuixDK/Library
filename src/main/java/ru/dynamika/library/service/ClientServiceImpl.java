@@ -13,6 +13,7 @@ import ru.dynamika.library.model.RentedBook;
 import ru.dynamika.library.repository.BookRepository;
 import ru.dynamika.library.repository.ClientRepository;
 import ru.dynamika.library.repository.RentedBookRepository;
+import ru.dynamika.library.request.ClientUpdateRequestDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,12 +47,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String updateClient(Client client) {
-        if (!clientRepository.existsById(client.getId())) {
+    public String updateClient(ClientUpdateRequestDto clientUpdateRequestDto) {
+        if (!clientRepository.existsById(clientUpdateRequestDto.getId())) {
             return "No such client";
         }
-        log.info("Update client: " + clientRepository.save(client));
-        return "Update client: " + clientRepository.findById(client.getId());
+        Client updatedClient = clientRepository.findById(clientUpdateRequestDto.getId()).get();
+        updatedClient.setBirthday(clientUpdateRequestDto.getBirthday());
+        updatedClient.setFullName(clientUpdateRequestDto.getFullName());
+        log.info("Update client: " + clientRepository.save(updatedClient));
+        return "Client was updated";
     }
 
     public String addNewBookToClient(BookRentDto bookRentDto) {

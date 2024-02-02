@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.dynamika.library.dto.*;
 import ru.dynamika.library.model.Client;
+import ru.dynamika.library.request.ClientUpdateRequestDto;
 import ru.dynamika.library.service.ClientService;
 
 import java.util.ArrayList;
@@ -57,8 +58,8 @@ public class ClientsController {
     }
 
     @PutMapping("/")
-    public String updateClient(@RequestBody Client client) {
-        return clientService.updateClient(client);
+    public String updateClient(@RequestBody ClientUpdateRequestDto clientUpdateRequestDto) {
+        return clientService.updateClient(clientUpdateRequestDto);
     }
 
 

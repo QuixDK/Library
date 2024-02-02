@@ -34,7 +34,7 @@ public class Client {
         return "Client{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", birthday=" + birthday +
+                ", birthday=" + birthday.getTime() +
                 '}';
     }
 }

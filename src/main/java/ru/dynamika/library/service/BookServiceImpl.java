@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.repository.BookRepository;
+import ru.dynamika.library.request.BookUpdateRequestDto;
 
 import java.util.List;
 
@@ -43,12 +44,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public String updateBook(Book book) {
-        if (bookRepository.existsByIsbn(book.getIsbn())) {
+    public String updateBook(BookUpdateRequestDto bookUpdateRequestDto) {
+        if (!bookRepository.existsById(bookUpdateRequestDto.getId())) {
             return "No such book";
         }
-        log.info("Update book: " + bookRepository.save(book));
-        return "Update book: " + bookRepository.findByIsbn(book.getIsbn());
+        Book updatedBook = bookRepository.findById(bookUpdateRequestDto.getId()).get();
+        updatedBook.setAuthor(bookUpdateRequestDto.getAuthor());
+        updatedBook.setName(bookUpdateRequestDto.getName());
+        updatedBook.setIsbn(bookUpdateRequestDto.getIsbn());
+        log.info("Update book: " + bookRepository.save(updatedBook));
+        return "Book was updated!";
     }
 
 }
