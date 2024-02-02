@@ -7,7 +7,7 @@
 6. Далее, для запуска проекта использовать команду java -jar library-1.jar  
 
 
-RequestBodies for tests  
+RequestBodies and paths for tests in postman 
 Create user: POST localhost:8080/api/v1/clients/  
 ```
 {
