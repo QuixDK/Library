@@ -23,6 +23,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+    @Column(nullable = false)
     String fullName;
     Date birthday;
 
