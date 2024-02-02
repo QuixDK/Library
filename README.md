@@ -28,3 +28,18 @@ ClientRentABook: POST localhost:8080/api/v1/clients/books/rent
 GetAllClients: GET localhost:8080/api/v1/clients/
 GetClientsWithRentedBooks: GET localhost:8080/api/v1/clients/rented-books
 GetAllBooks:GET localhost:8080/api/v1/books/
+
+UpdateBook: PUT localhost:8080/api/v1/books/
+{
+  "id" : 1,
+  "name" : "Harry Potter and the Philosopher's Stone",
+  "author" : "J. K. Rowling",
+  "isbn" : "13: 9780545069680"
+}
+
+UpdateClient: PUT localhost:8080/api/v1/clients/
+{
+  "id" : 1,
+  "fullName" : "Harry Potter Philosopher",
+  "birthday" : "2003-10-13"
+}
