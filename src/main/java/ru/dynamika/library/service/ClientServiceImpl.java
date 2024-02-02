@@ -14,6 +14,7 @@ import ru.dynamika.library.repository.BookRepository;
 import ru.dynamika.library.repository.ClientRepository;
 import ru.dynamika.library.repository.RentedBookRepository;
 import ru.dynamika.library.request.ClientUpdateRequestDto;
+import ru.dynamika.library.response.ClientResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,40 +37,56 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String createClient(ClientDto clientDTO) {
-        log.info("Save new client: " + clientRepository.save(Client.builder()
+    public ClientResponse createClient(ClientDto clientDTO) {
+        Client client = Client.builder()
                 .fullName(clientDTO.getFullName())
                 .birthday(clientDTO.getBirthday())
                 .rentedBooks(new ArrayList<>())
-                .build()
-        ));
-        return "Save new client";
+                .build();
+
+        log.info("Save new client: " + clientRepository.save(client));
+        return ClientResponse.builder()
+                .client(client)
+                .message("Save new client")
+                .build();
     }
 
     @Override
-    public String updateClient(ClientUpdateRequestDto clientUpdateRequestDto) {
+    public ClientResponse updateClient(ClientUpdateRequestDto clientUpdateRequestDto) {
         if (!clientRepository.existsById(clientUpdateRequestDto.getId())) {
-            return "No such client";
+            return ClientResponse.builder()
+                    .client(null)
+                    .message("No such client")
+                    .build();
         }
         Client updatedClient = clientRepository.findById(clientUpdateRequestDto.getId()).get();
         updatedClient.setBirthday(clientUpdateRequestDto.getBirthday());
         updatedClient.setFullName(clientUpdateRequestDto.getFullName());
         log.info("Update client: " + clientRepository.save(updatedClient));
-        return "Client was updated";
+
+        return ClientResponse.builder()
+                .client(updatedClient)
+                .message("Client was updated")
+                .build();
     }
 
-    public String addNewBookToClient(BookRentDto bookRentDto) {
+    public ClientResponse addNewBookToClient(BookRentDto bookRentDto) {
+        ClientResponse clientResponse = new ClientResponse();
+        clientResponse.setClient(null);
         if (!clientRepository.existsById(bookRentDto.getUserId())) {
-            return "No such client";
+            clientResponse.setMessage("No such client");
+            return clientResponse;
         }
         if (!bookRepository.existsByIsbn(bookRentDto.getIsbn())) {
-            return "No such book";
+            clientResponse.setMessage("No such book");
+            return clientResponse;
         }
         Client client = clientRepository.findById(bookRentDto.getUserId()).get();
         Book book = bookRepository.findByIsbn(bookRentDto.getIsbn());
 
         if (isBookAlreadyRented(client, book)) {
-            return "Book is already rented by the client";
+            clientResponse.setMessage("Book is already rented by the client");
+            return clientResponse;
         }
 
         RentedBook rentedBook = new RentedBook();
@@ -82,7 +99,9 @@ public class ClientServiceImpl implements ClientService {
         log.info("New rented book: " + rentedBookRepository.save(rentedBook));
         log.info("Client update rented books: " + clientRepository.save(client));
 
-        return "Client rented a new book";
+        clientResponse.setClient(client);
+        clientResponse.setMessage("Client rented a new book");
+        return clientResponse;
     }
 
     @SneakyThrows

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.dynamika.library.dto.*;
 import ru.dynamika.library.model.Client;
 import ru.dynamika.library.request.ClientUpdateRequestDto;
+import ru.dynamika.library.response.ClientResponse;
 import ru.dynamika.library.service.ClientService;
 
 import java.util.ArrayList;
@@ -23,14 +24,16 @@ public class ClientsController {
     private final ClientService clientService;
     private final ObjectMapper objectMapper;
 
+    @SneakyThrows
     @PostMapping("/")
     public String createClient(@RequestBody ClientDto clientDTO) {
-        return clientService.createClient(clientDTO);
+        return objectMapper.writeValueAsString(clientService.createClient(clientDTO));
     }
 
+    @SneakyThrows
     @PostMapping("/books/rent")
     public String addNewBookToClient(@RequestBody BookRentDto bookRentDto) {
-        return clientService.addNewBookToClient(bookRentDto);
+        return objectMapper.writeValueAsString(clientService.addNewBookToClient(bookRentDto));
     }
 
     @SneakyThrows
@@ -57,9 +60,10 @@ public class ClientsController {
         return objectMapper.writeValueAsString(clientsWithBooks);
     }
 
+    @SneakyThrows
     @PutMapping("/")
     public String updateClient(@RequestBody ClientUpdateRequestDto clientUpdateRequestDto) {
-        return clientService.updateClient(clientUpdateRequestDto);
+        return objectMapper.writeValueAsString(clientService.updateClient(clientUpdateRequestDto));
     }
 
 

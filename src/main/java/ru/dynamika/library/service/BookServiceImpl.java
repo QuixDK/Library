@@ -10,6 +10,7 @@ import ru.dynamika.library.dto.BookDto;
 import ru.dynamika.library.model.Book;
 import ru.dynamika.library.repository.BookRepository;
 import ru.dynamika.library.request.BookUpdateRequestDto;
+import ru.dynamika.library.response.BookResponse;
 
 import java.util.List;
 
@@ -29,31 +30,48 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public String saveNewBook(BookDto bookDTO) {
+    public BookResponse saveNewBook(BookDto bookDTO) {
+        BookResponse bookResponse = new BookResponse();
         if (bookRepository.existsByIsbn(bookDTO.getIsbn())) {
-            return "This book is already saved";
+            bookResponse.setBook(null);
+            bookResponse.setMessage("This book is already saved");
+            return bookResponse;
         }
-
-        log.info("Save new book: " + bookRepository.save(Book.builder()
+        Book book = Book.builder()
                 .name(bookDTO.getName())
                 .author(bookDTO.getAuthor())
                 .isbn(bookDTO.getIsbn())
-                .build()
-        ));
-        return "Save new book";
+                .build();
+        log.info("Save new book: " + bookRepository.save(book));
+        bookResponse.setBook(book);
+        bookResponse.setMessage("Save new book");
+        return bookResponse;
     }
 
     @Override
-    public String updateBook(BookUpdateRequestDto bookUpdateRequestDto) {
+    public BookResponse updateBook(BookUpdateRequestDto bookUpdateRequestDto) {
+        BookResponse bookResponse = new BookResponse();
         if (!bookRepository.existsById(bookUpdateRequestDto.getId())) {
-            return "No such book";
+            bookResponse.setBook(null);
+            bookResponse.setMessage("No such book");
+            return bookResponse;
         }
         Book updatedBook = bookRepository.findById(bookUpdateRequestDto.getId()).get();
+
+        if (bookRepository.existsByIsbn(bookUpdateRequestDto.getIsbn()) &&
+                !bookRepository.findByIsbn(bookUpdateRequestDto.getIsbn()).equals(updatedBook)) {
+            bookResponse.setBook(null);
+            bookResponse.setMessage("Book with this isbn is already exist");
+            return bookResponse;
+        }
+        updatedBook.setIsbn(bookUpdateRequestDto.getIsbn());
         updatedBook.setAuthor(bookUpdateRequestDto.getAuthor());
         updatedBook.setName(bookUpdateRequestDto.getName());
-        updatedBook.setIsbn(bookUpdateRequestDto.getIsbn());
+
         log.info("Update book: " + bookRepository.save(updatedBook));
-        return "Book was updated!";
+        bookResponse.setBook(updatedBook);
+        bookResponse.setMessage("Book was updated!");
+        return bookResponse;
     }
 
 }

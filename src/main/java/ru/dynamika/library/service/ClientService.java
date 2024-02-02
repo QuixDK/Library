@@ -4,6 +4,7 @@ import ru.dynamika.library.dto.BookRentDto;
 import ru.dynamika.library.dto.ClientDto;
 import ru.dynamika.library.model.Client;
 import ru.dynamika.library.request.ClientUpdateRequestDto;
+import ru.dynamika.library.response.ClientResponse;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ public interface ClientService {
 
     List<Client> getAllClients();
 
-    String createClient(ClientDto clientDTO);
+    ClientResponse createClient(ClientDto clientDTO);
 
-    String updateClient(ClientUpdateRequestDto clientUpdateRequestDto);
+    ClientResponse updateClient(ClientUpdateRequestDto clientUpdateRequestDto);
 
     List<Client> getClientsWithRentedBooks();
 
-    String addNewBookToClient(BookRentDto bookRentDto);
+    ClientResponse addNewBookToClient(BookRentDto bookRentDto);
 }

@@ -21,9 +21,10 @@ public class LibraryController {
     private final BookService bookService;
     private final ObjectMapper objectMapper;
 
+    @SneakyThrows
     @PostMapping("/")
     public String saveNewBook(@RequestBody BookDto bookDTO) {
-        return bookService.saveNewBook(bookDTO);
+        return objectMapper.writeValueAsString(bookService.saveNewBook(bookDTO));
     }
 
     @SneakyThrows
@@ -32,8 +33,9 @@ public class LibraryController {
         return objectMapper.writeValueAsString(bookService.getAllBooks());
     }
 
+    @SneakyThrows
     @PutMapping("/")
     public String updateBook(@RequestBody BookUpdateRequestDto bookUpdateRequestDto) {
-        return bookService.updateBook(bookUpdateRequestDto);
+        return objectMapper.writeValueAsString(bookService.updateBook(bookUpdateRequestDto));
     }
 }
