@@ -25,8 +25,8 @@ public class LibraryController {
 
     @SneakyThrows
     @PostMapping("/")
-    public ResponseEntity<String> saveNewBook(@RequestBody BookDto bookDTO) {
-        return ResponseEntity.ok(objectMapper.writeValueAsString(bookService.saveNewBook(bookDTO)));
+    public String saveNewBook(@RequestBody BookDto bookDTO) {
+        return objectMapper.writeValueAsString(bookService.saveNewBook(bookDTO));
     }
 
     @SneakyThrows

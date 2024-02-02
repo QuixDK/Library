@@ -54,5 +54,5 @@ public class LibraryControllerTests {
                 .getResponse()
                 .getContentAsString();
     }
-    
+
 }
