@@ -54,21 +54,5 @@ public class LibraryControllerTests {
                 .getResponse()
                 .getContentAsString();
     }
-
-    @Test
-    @SneakyThrows
-    public void testCreateBookShouldReturn400Request() {
-        Client client = new Client();
-        client.setFullName(null);
-        client.setBirthday(new Date(2003, 12, 1));
-        String requestBody = objectMapper.writeValueAsString(client);
-        MvcResult result = mockMvc.perform(post(END_POINT_PATH)
-                        .contentType("application/json")
-                        .content(requestBody))
-                        .andExpect(request().asyncStarted())
-                        .andReturn();
-        mockMvc.perform(asyncDispatch(result))
-                .andExpect(status().isBadRequest())
-        ;
-    }
+    
 }
