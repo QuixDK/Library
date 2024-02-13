@@ -1,16 +1,15 @@
-package ru.dynamika.library.service;
+package ru.dynamika.library.store.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.dynamika.library.dto.BookDto;
-import ru.dynamika.library.model.Book;
-import ru.dynamika.library.repository.BookRepository;
-import ru.dynamika.library.request.BookUpdateRequestDto;
-import ru.dynamika.library.response.BookResponse;
+import ru.dynamika.library.api.dto.BookDto;
+import ru.dynamika.library.store.model.Book;
+import ru.dynamika.library.store.repository.BookRepository;
+import ru.dynamika.library.api.request.BookUpdateRequestDto;
+import ru.dynamika.library.api.response.BookResponse;
 
 import java.util.List;
 

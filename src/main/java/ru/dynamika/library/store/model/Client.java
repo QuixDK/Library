@@ -1,7 +1,7 @@
-package ru.dynamika.library.model;
+package ru.dynamika.library.store.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,16 +17,24 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonPropertyOrder({"client_id"})
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("client_id")
     int id;
 
     @Column(nullable = false)
     String fullName;
+
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy"
+    )
     Date birthday;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RentedBook> rentedBooks;
 
@@ -35,7 +43,8 @@ public class Client {
         return "Client{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", birthday=" + birthday.getTime() +
+                ", birthday=" + birthday +
+                ", rentedBooks=" + rentedBooks +
                 '}';
     }
 }

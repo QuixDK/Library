@@ -1,19 +1,17 @@
-package ru.dynamika.library.controller;
+package ru.dynamika.library.api.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.dynamika.library.dto.BookDto;
-import ru.dynamika.library.model.Book;
-import ru.dynamika.library.request.BookUpdateRequestDto;
-import ru.dynamika.library.response.BookResponse;
-import ru.dynamika.library.service.BookService;
-import ru.dynamika.library.service.BookServiceImpl;
+import ru.dynamika.library.api.dto.BookDto;
+import ru.dynamika.library.api.request.BookUpdateRequestDto;
+import ru.dynamika.library.store.service.BookService;
 
+@Tag(name = "Books")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/books")

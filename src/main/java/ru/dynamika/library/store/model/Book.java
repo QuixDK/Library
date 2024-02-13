@@ -1,6 +1,6 @@
-package ru.dynamika.library.model;
+package ru.dynamika.library.store.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,24 +11,27 @@ import java.util.Objects;
 @Entity
 @Table
 @Builder
-@Getter
-@Setter
+@Getter @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonPropertyOrder({"book_id", "book"})
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("book_id")
     int id;
 
+    @JsonProperty("book")
     String name;
     String author;
 
     String isbn;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     List<RentedBook> rentedBooks;
 
     @Override

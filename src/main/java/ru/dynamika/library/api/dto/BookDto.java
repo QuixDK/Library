@@ -1,4 +1,5 @@
-package ru.dynamika.library.request;
+package ru.dynamika.library.api.dto;
+
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,14 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookUpdateRequestDto {
+public class BookDto {
 
-    int id;
     String name;
     String author;
     String isbn;
+
 }

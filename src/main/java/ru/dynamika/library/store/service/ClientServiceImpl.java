@@ -1,20 +1,20 @@
-package ru.dynamika.library.service;
+package ru.dynamika.library.store.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.dynamika.library.dto.BookRentDto;
-import ru.dynamika.library.dto.ClientDto;
-import ru.dynamika.library.model.Book;
-import ru.dynamika.library.model.Client;
-import ru.dynamika.library.model.RentedBook;
-import ru.dynamika.library.repository.BookRepository;
-import ru.dynamika.library.repository.ClientRepository;
-import ru.dynamika.library.repository.RentedBookRepository;
-import ru.dynamika.library.request.ClientUpdateRequestDto;
-import ru.dynamika.library.response.ClientResponse;
+import ru.dynamika.library.api.dto.BookRentDto;
+import ru.dynamika.library.api.dto.ClientDto;
+import ru.dynamika.library.store.model.Book;
+import ru.dynamika.library.store.model.Client;
+import ru.dynamika.library.store.model.RentedBook;
+import ru.dynamika.library.store.repository.BookRepository;
+import ru.dynamika.library.store.repository.ClientRepository;
+import ru.dynamika.library.store.repository.RentedBookRepository;
+import ru.dynamika.library.api.request.ClientUpdateRequestDto;
+import ru.dynamika.library.api.response.ClientResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

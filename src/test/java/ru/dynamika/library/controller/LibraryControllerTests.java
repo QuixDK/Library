@@ -9,18 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import ru.dynamika.library.dto.BookDto;
-import ru.dynamika.library.model.Book;
-import ru.dynamika.library.model.Client;
-import ru.dynamika.library.service.BookService;
-
-import java.util.ArrayList;
-import java.util.Date;
+import ru.dynamika.library.api.controller.LibraryController;
+import ru.dynamika.library.api.dto.BookDto;
+import ru.dynamika.library.store.service.BookService;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

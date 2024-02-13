@@ -1,8 +1,8 @@
-package ru.dynamika.library.response;
+package ru.dynamika.library.api.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.dynamika.library.model.Client;
+import ru.dynamika.library.store.model.Client;
 
 @Data
 @Builder

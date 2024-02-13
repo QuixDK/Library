@@ -1,4 +1,4 @@
-package ru.dynamika.library.dto;
+package ru.dynamika.library.api.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;

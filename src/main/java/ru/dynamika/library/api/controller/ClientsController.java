@@ -1,20 +1,25 @@
-package ru.dynamika.library.controller;
+package ru.dynamika.library.api.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.dynamika.library.dto.*;
-import ru.dynamika.library.model.Client;
-import ru.dynamika.library.request.ClientUpdateRequestDto;
-import ru.dynamika.library.response.ClientResponse;
-import ru.dynamika.library.service.ClientService;
+import ru.dynamika.library.api.dto.BookRentDto;
+import ru.dynamika.library.api.dto.ClientDto;
+import ru.dynamika.library.store.model.Client;
+import ru.dynamika.library.api.request.ClientUpdateRequestDto;
+import ru.dynamika.library.store.service.ClientService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Clients")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clients")
@@ -24,9 +29,14 @@ public class ClientsController {
     private final ClientService clientService;
     private final ObjectMapper objectMapper;
 
+    @Operation (
+            summary = "Create client",
+            description = "Get ClientDto and create new client, then add it to database",
+            method = "createClient"
+    )
     @SneakyThrows
     @PostMapping("/")
-    public String createClient(@RequestBody ClientDto clientDTO) {
+    public String createClient(@Valid @RequestBody ClientDto clientDTO) {
         return objectMapper.writeValueAsString(clientService.createClient(clientDTO));
     }
 

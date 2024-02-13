@@ -1,4 +1,4 @@
-package ru.dynamika.library.request;
+package ru.dynamika.library.api.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

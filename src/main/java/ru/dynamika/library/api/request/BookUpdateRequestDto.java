@@ -1,18 +1,19 @@
-package ru.dynamika.library.response;
+package ru.dynamika.library.api.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.dynamika.library.model.Book;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookResponse {
+public class BookUpdateRequestDto {
 
-    Book book;
-    String message;
+    int id;
+    String name;
+    String author;
+    String isbn;
 }
