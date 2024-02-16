@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class Client {
             shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy"
     )
-    Date birthday;
+    LocalDate birthday;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)

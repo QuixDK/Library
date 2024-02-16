@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.tomcat.jni.Local;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,5 +19,5 @@ public class ClientUpdateRequestDto {
 
     int id;
     String fullName;
-    Date birthday;
+    LocalDate birthday;
 }
