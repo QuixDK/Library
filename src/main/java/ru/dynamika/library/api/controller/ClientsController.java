@@ -4,10 +4,13 @@ package ru.dynamika.library.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.dynamika.library.api.controller.helpers.ClientsHelper;
 import ru.dynamika.library.api.dto.BookRentDto;
 import ru.dynamika.library.api.dto.ClientDto;
 import ru.dynamika.library.api.exceptions.BadRequestException;
@@ -27,11 +30,13 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clients")
+@FieldDefaults (level = AccessLevel.PRIVATE, makeFinal = true)
 public class ClientsController {
 
-    private final ObjectMapper objectMapper;
-    private final ClientRepository clientRepository;
-    private final BookRepository bookRepository;
+    ObjectMapper objectMapper;
+    ClientRepository clientRepository;
+    BookRepository bookRepository;
+    ClientsHelper clientsHelper;
 
     @Operation(
             summary = "Create or update client",
@@ -66,7 +71,7 @@ public class ClientsController {
         }
 
         final Client client = optionalClientId
-                .map(this::getClientOrThrowException)
+                .map(clientsHelper::getClientOrThrowException)
                 .orElseGet(() -> Client.builder().build());
 
         optionalClientName
@@ -103,7 +108,7 @@ public class ClientsController {
             throw new NotFoundException("No such book");
         }
 
-        if (isBookAlreadyRented(client.get(), book.get())) {
+        if (clientsHelper.isBookAlreadyRented(client.get(), book.get())) {
             throw new BadRequestException("Book is already rented by the client");
 
         }
@@ -151,33 +156,10 @@ public class ClientsController {
     public ResponseEntity<String> deleteClient(
             @RequestParam(name = "client_id") Integer clientId) {
 
-        Client client = getClientOrThrowException(clientId);
+        Client client = clientsHelper.getClientOrThrowException(clientId);
         clientRepository.delete(client);
         return ResponseEntity.ok(String.format("Client with id %s was deleted", clientId));
     }
 
-
-    public Client getClientOrThrowException(Integer clientId) {
-
-        return clientRepository
-                .findById(clientId)
-                .orElseThrow(() ->
-                        new NotFoundException(
-                                String.format(
-                                        "Client with \"%s\" doesn't exist.",
-                                        clientId
-                                )
-                        )
-                );
-    }
-
-    private boolean isBookAlreadyRented(Client client, Book book) {
-        for (RentedBook rentedBook : client.getRentedBooks()) {
-            if (rentedBook.getBook().equals(book)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

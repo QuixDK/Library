@@ -4,10 +4,13 @@ package ru.dynamika.library.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.dynamika.library.api.controller.helpers.LibraryHelper;
 import ru.dynamika.library.api.dto.BookDto;
 import ru.dynamika.library.api.exceptions.BadRequestException;
 import ru.dynamika.library.api.exceptions.NotFoundException;
@@ -20,10 +23,12 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/books")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LibraryController {
 
-    private final BookRepository bookRepository;
-    private final ObjectMapper objectMapper;
+    BookRepository bookRepository;
+    ObjectMapper objectMapper;
+    LibraryHelper libraryHelper;
 
     @Operation(
             summary = "Create or update Book",
@@ -60,7 +65,7 @@ public class LibraryController {
         }
 
         final Book book = optionalBookId
-                .map(this::getBookOrThrowException)
+                .map(libraryHelper::getBookOrThrowException)
                 .orElseGet(() -> Book.builder().build());
 
 
@@ -91,25 +96,11 @@ public class LibraryController {
         return ResponseEntity.ok(objectMapper.writeValueAsString(bookRepository.findAll()));
     }
 
-    public Book getBookOrThrowException(Integer bookId) {
-
-        return bookRepository
-                .findById(bookId)
-                .orElseThrow(() ->
-                        new NotFoundException(
-                                String.format(
-                                        "Book with %s doesn't exist.",
-                                        bookId
-                                )
-                        )
-                );
-    }
-
     @SneakyThrows
     @DeleteMapping("/")
     public ResponseEntity<String> deleteBook(
             @RequestParam(name = "book_id") Integer bookId) {
-        Book book = getBookOrThrowException(bookId);
+        Book book = libraryHelper.getBookOrThrowException(bookId);
         bookRepository.delete(book);
         return ResponseEntity.ok(String.format("Book with id %s was deleted", bookId));
     }
