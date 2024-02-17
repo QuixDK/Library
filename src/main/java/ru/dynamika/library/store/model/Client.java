@@ -40,13 +40,4 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RentedBook> rentedBooks;
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", birthday=" + birthday +
-                ", rentedBooks=" + rentedBooks +
-                '}';
-    }
 }

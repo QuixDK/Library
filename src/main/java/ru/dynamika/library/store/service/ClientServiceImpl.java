@@ -16,6 +16,7 @@ import ru.dynamika.library.store.repository.RentedBookRepository;
 import ru.dynamika.library.api.request.ClientUpdateRequestDto;
 import ru.dynamika.library.api.response.ClientResponse;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
     private final ClientRepository clientRepository;
     private final RentedBookRepository rentedBookRepository;
     private final BookRepository bookRepository;
@@ -73,16 +73,17 @@ public class ClientServiceImpl implements ClientService {
     public ClientResponse addNewBookToClient(BookRentDto bookRentDto) {
         ClientResponse clientResponse = new ClientResponse();
         clientResponse.setClient(null);
+
         if (!clientRepository.existsById(bookRentDto.getUserId())) {
             clientResponse.setMessage("No such client");
             return clientResponse;
         }
-        if (!bookRepository.existsByIsbn(bookRentDto.getIsbn())) {
+        if (!bookRepository.existsById(bookRentDto.getBookId())) {
             clientResponse.setMessage("No such book");
             return clientResponse;
         }
         Client client = clientRepository.findById(bookRentDto.getUserId()).get();
-        Book book = bookRepository.findByIsbn(bookRentDto.getIsbn());
+        Book book = bookRepository.findById(bookRentDto.getBookId()).get();
 
         if (isBookAlreadyRented(client, book)) {
             clientResponse.setMessage("Book is already rented by the client");
@@ -92,7 +93,7 @@ public class ClientServiceImpl implements ClientService {
         RentedBook rentedBook = new RentedBook();
         rentedBook.setClient(client);
         rentedBook.setBook(book);
-        rentedBook.setRentalTimestamp(LocalDateTime.now());
+        rentedBook.setLocalDate(LocalDate.now());
 
         client.getRentedBooks().add(rentedBook);
 

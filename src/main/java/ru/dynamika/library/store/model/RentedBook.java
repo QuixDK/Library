@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,23 +30,13 @@ public class RentedBook {
 
 
     @ManyToOne
-    @JsonUnwrapped
     Book book;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss"
+            pattern = "dd-MM-yyyy"
     )
     @JsonProperty("rented_time")
-    LocalDateTime rentalTimestamp;
+    LocalDate localDate;
 
-    @Override
-    public String toString() {
-        return "RentedBooks{" +
-                "id=" + id +
-               // ", client=" + client +
-                ", book=" + book +
-                ", rentalTimestamp=" + rentalTimestamp +
-                '}';
-    }
 }

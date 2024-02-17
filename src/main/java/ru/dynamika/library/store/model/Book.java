@@ -27,6 +27,7 @@ public class Book {
     String name;
     String author;
 
+    @Column(unique=true)
     String isbn;
 
 
@@ -35,26 +36,15 @@ public class Book {
     List<RentedBook> rentedBooks;
 
     @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", isbn='" + isbn + '\'' +
-             //   ", rentedBooks=" + rentedBooks +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(isbn, book.isbn) && Objects.equals(rentedBooks, book.rentedBooks);
+        return id == book.id && Objects.equals(isbn, book.isbn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, isbn, rentedBooks);
+        return Objects.hash(id, isbn);
     }
 }

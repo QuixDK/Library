@@ -9,5 +9,5 @@ import lombok.experimental.FieldDefaults;
 public class BookRentDto {
 
     int userId;
-    String isbn;
+    int bookId;
 }
