@@ -6,22 +6,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.dynamika.library.api.dto.BookDto;
-import ru.dynamika.library.api.dto.ClientDto;
 import ru.dynamika.library.api.exceptions.BadRequestException;
 import ru.dynamika.library.api.exceptions.NotFoundException;
 import ru.dynamika.library.store.model.Book;
-import ru.dynamika.library.store.model.Client;
 import ru.dynamika.library.store.repository.BookRepository;
-import ru.dynamika.library.store.service.BookService;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Optional;
 
 @Tag(name = "Books")

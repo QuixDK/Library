@@ -21,15 +21,4 @@ public class BeanConfig {
         return new ObjectMapper().registerModule(new JavaTimeModule()).enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-//    @Bean
-//    public OpenAPI openAPI() {
-//        List<Server> serverList = new ArrayList<>();
-//        serverList.add(new Server().url("http://localhost:8080"));
-//        return new OpenAPI()
-//                .servers(
-//                        serverList
-//                )
-//                .info(new Info().title("Electronic library"));
-//
-//    }
 }
