@@ -13,7 +13,6 @@ import ru.dynamika.library.api.dto.BookDto;
 import ru.dynamika.library.api.dto.ClientDto;
 import ru.dynamika.library.api.exceptions.BadRequestException;
 import ru.dynamika.library.api.exceptions.NotFoundException;
-import ru.dynamika.library.api.request.BookUpdateRequestDto;
 import ru.dynamika.library.store.model.Book;
 import ru.dynamika.library.store.model.Client;
 import ru.dynamika.library.store.repository.BookRepository;

@@ -12,13 +12,11 @@ import ru.dynamika.library.api.dto.BookRentDto;
 import ru.dynamika.library.api.dto.ClientDto;
 import ru.dynamika.library.api.exceptions.BadRequestException;
 import ru.dynamika.library.api.exceptions.NotFoundException;
-import ru.dynamika.library.api.response.ClientResponse;
 import ru.dynamika.library.store.model.Book;
 import ru.dynamika.library.store.model.Client;
 import ru.dynamika.library.store.model.RentedBook;
 import ru.dynamika.library.store.repository.BookRepository;
 import ru.dynamika.library.store.repository.ClientRepository;
-import ru.dynamika.library.store.service.ClientService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
